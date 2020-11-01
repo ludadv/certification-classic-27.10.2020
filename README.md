@@ -72,7 +72,7 @@ npm run dev
 
 ```
 {
-  params: {
+  params: { 
     brand: [string, string, ...],
     manufacturer: string,
     model: string,

@@ -16,7 +16,7 @@ for (let i = 1973; i <= 2021; i++) {
 
 $('input, select').change(function() {
     let brand = [];
-    $('input:checkbox:checked').each(function() {
+    $('input[name="brand"]:checked').each(function() {
         brand.push($(this).val());
     });
     let manufacturer = $('#marka').val();
