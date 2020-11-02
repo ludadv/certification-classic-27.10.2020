@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------------
 
 // global
+require('js/lib/jquery.js');
 // styles
 import 'sass#/style.scss';
 // scripts
@@ -48,9 +49,12 @@ $('input, select').change(function() {
 });
 
 
+var maxHeight = 0;
+$(".card").each(function(){
+    if ( $(this).height() > maxHeight )
+    {
+        maxHeight = $(this).height();
+    }
+});
 
-
-
-
-// a.forEach(i => console.log(a[name]));
-
+$(".card").height(maxHeight);

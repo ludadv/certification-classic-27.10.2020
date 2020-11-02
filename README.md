@@ -165,3 +165,6 @@ npm run dev
 1. Отправляем ссылки в соответствующую задачу Worksection
     - ссылка на репозиторий
     - ссылка на GitHub pages
+
+
+require('js/lib/jquery.js');

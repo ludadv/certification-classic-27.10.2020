@@ -24,3 +24,22 @@ body {
 ::after {
 	box-sizing: inherit;
 }
+
+.pagination {
+	a {
+		color: $color-black;
+		text-decoration: none;
+		padding: 0 10px;
+		border-right: 1px solid $color-black;
+		border-left: 1px solid $color-black;
+		&:first-child,
+		&:last-child {
+			border-right: 0;
+			border-left: 0;
+		}
+		&.active,
+		&:hover {
+			color: rgba(0, 0, 0, 0.4);
+		}
+	}
+}
