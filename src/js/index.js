@@ -10,8 +10,14 @@ import 'sass#/style.scss';
 // -----------------------------------------------------------------------------
 // Initialize
 // -----------------------------------------------------------------------------
+let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></optgroup>`);
 for (let i = 1973; i <= 2021; i++) {
-    $('#year').append(`<option value="${i}">${i}</option>`);
+    let j;
+    if (i % 10 == 0) {
+        let optgroup = $('#year').append(`<optgroup label="${i}ыe" class="seventies"></optgroup>`);
+    }
+
+    optgroup.append(`<option value="${i}">${i}</option>`);
 }
 
 $('input, select').change(function() {
