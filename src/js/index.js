@@ -22,7 +22,7 @@ let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></
         optgroup.append(`<option value="${i}">${i}</option>`);
     }
 
-    $('input, select').change(function() {
+    $('input, select, .page').change(function() {
         let brand = [];
         $('input[name="brand"]:checked').each(function() {
             brand.push($(this).val());
