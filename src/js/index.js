@@ -12,16 +12,22 @@ import 'sass#/style.scss';
 // Initialize
 // -----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-    let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></optgroup>`);
-    for (let i = 1973; i <= 2021; i++) {
-        let j;
-        if (i % 10 == 0) {
-            let optgroup = $('#year').append(`<optgroup label="${i}ыe" class="seventies"></optgroup>`);
+    let optgroup = $('#year').append(`<optgroup label="70-ыe" class="seventies"></optgroup>`);
+    for (let year = 1973; year <= 2021; year++) {
+        if (year % 10 == 0) {
+            let group;
+            if (year < 2000) {
+                group = year % 100 + '-ыe';
+            } else if(year === 2000) {
+                group = '2k';
+            } else {
+                group = '2k' + year % 100;
+            }
+            let optgroup = $('#year').append(`<optgroup label="${group}" class="seventies"></optgroup>`);
         }
-
-        optgroup.append(`<option value="${i}">${i}</option>`);
+        optgroup.append(`<option value="${year}">${year}</option>`);
     }
-
+// -----------------------------------------------------------------------------
     let maxHeight = 0;
     $(".card").each(function () {
         if ($(this).height() > maxHeight) {
@@ -100,8 +106,6 @@ function setLocation(curLoc) {
         return;
     } catch (e) {
     }
-
     location.hash = '#' + curLoc;
 }
-
 // -----------------------------------------------------------------------------
