@@ -21,7 +21,7 @@ let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></
 
         optgroup.append(`<option value="${i}">${i}</option>`);
     }
-
+    let step = 0;
     $('input, select, .page').change(function() {
         let brand = [];
         $('input[name="brand"]:checked').each(function() {
@@ -31,7 +31,7 @@ let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></
         let model = $('#filter-model').val();
         let year = $('#year').val();
         let priceFrom = $('#price-from').val();
-        let pricetTo = $('#price-to').val();
+        let priceTo = $('#price-to').val();
         let sort = $('#sort').val();
         let perPage = $('#per_page').val();
         let page = $('#page').val();
@@ -41,7 +41,7 @@ let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></
                 manufacturer: manufacturer,
                 model: model,
                 year: year,
-                price: [priceFrom, pricetTo],
+                price: [priceFrom, priceTo],
             },
             pagination: {
                 sort: sort,
@@ -49,8 +49,8 @@ let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></
                 page: page,
             }
         }
-        // var recursiveEncoded = $.param(rez.params);
-        // console.log(decodeURIComponent(recursiveEncoded));
+        var recursiveEncoded = $.param(rez.params);
+        console.log(decodeURIComponent(recursiveEncoded));
 
         // const filter = $('#filter').serializeArray()
         //     .filter(item => item && item.value)
@@ -58,32 +58,44 @@ let optgroup = $('#year').append(`<optgroup label="1970ыe" class="seventies"></
         //     .join('&');
         // console.log(filter);
         let params = {};
-        if (brand.length > 0) {
-            params['brand'] = brand;
+        if (page) {
+            params['page'] = page;
         }
-        // console.log(params);
-        if (manufacturer) {
-            params['manufacturer'] = manufacturer;
-        }
-        // console.log(params);
-        if (model) {
-            params['model'] = model;
-        }
-        // console.log(params);
         if (year) {
             params['year'] = year;
         }
-        // console.log(params);
+        if (priceTo) {
+            params['priceTo'] = priceTo;
+        }
         if (priceFrom) {
             params['priceFrom'] = priceFrom;
         }
-        // console.log(params);
-        if (pricetTo) {
-            params['pricetTo'] = pricetTo;
+        if (model) {
+            params['model'] = model;
         }
-        console.log(params);
+        if (manufacturer) {
+            params['manufacturer'] = manufacturer;
+        }
+        if (brand.length > 0) {
+            params['brand'] = brand;
+        }
+        if (sort) {
+            params['sort'] = sort;
+        }
+        if (perPage) {
+            params['perPage'] = perPage;
+        }
+            console.log(params);
+        step++;
+        setLocation('#' + step);
     });
-
+    function setLocation(curLoc) {
+        try {
+            history.pushState(null, null, curLoc);
+            return;
+        } catch(e) {}
+        location.hash = '#' + curLoc;
+    }
 
     let maxHeight = 0;
     $(".card").each(function() {
