@@ -43,3 +43,13 @@ body {
 		}
 	}
 }
+.section {
+	&.section {
+		&--white {
+			z-index: 1;
+		}
+	}
+	&__decor {
+		z-index: -1;
+	}
+}
