@@ -167,4 +167,4 @@ npm run dev
     - ссылка на GitHub pages
 
 
-require('js/lib/jquery.js');
+
