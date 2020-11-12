@@ -6,7 +6,6 @@
 require('js/lib/jquery.js');
 // styles
 import 'sass#/style.scss';
-
 // scripts
 // -----------------------------------------------------------------------------
 // Initialize
@@ -109,3 +108,40 @@ function setLocation(curLoc) {
     location.hash = '#' + curLoc;
 }
 // -----------------------------------------------------------------------------
+// $.getJSON("goods.json", function(json) {
+//         console.log(json);
+//     }
+// );
+let data = require('data/goods.json');
+console.log(data);
+for (var key in data) {
+    console.log(data[key]);
+}
+
+// const tasks = [
+//     {
+//         name: "test",
+//         type: "one"
+//     },
+//     {
+//         name: "test2",
+//         type: 'two'
+//     }
+// ];
+// const activities = [
+//     {
+//         name: "test",
+//         type: "one"
+//     },
+//     {
+//         name: "test2",
+//         type: 'two'
+//     },
+//     {
+//         name: "test3",
+//         type: "three"
+//     }
+// ];
+
+// let tests = activities.filter(a => tasks.some(t => t.type == a.type));
+// console.log(tests);
