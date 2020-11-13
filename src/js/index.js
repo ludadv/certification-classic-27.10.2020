@@ -65,7 +65,6 @@ $('input, select, .page').change(function () {
             page: page,
         }
     }
-    console.log(rez);
 
     let params = {};
     if (page) {
@@ -97,6 +96,8 @@ $('input, select, .page').change(function () {
     }
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
+
+    filterGoods(productsList[2], params);
 });
 
 // -----------------------------------------------------------------------------
@@ -109,3 +110,26 @@ function setLocation(curLoc) {
     location.hash = '#' + curLoc;
 }
 // -----------------------------------------------------------------------------
+let productsList = require('data/goods');
+
+
+function filterGoods(product, filter) {
+    console.log('Product', product);
+    console.log('Filter', filter);
+    if (typeof filter.manufacturer !== 'undefined') {
+       console.log('---------------');
+       console.log(product.manufacturer.id);
+       console.log(filter.manufacturer);
+       console.log(product.manufacturer.id == filter.manufacturer.id);
+       console.log('---------------');
+       // if (product.manufacturer.id == filter.manufacturer.id) {
+       //     return;
+       // }
+   }
+}
+
+// for (var key in productsList) {
+//     for (var i in params) {
+//
+//     }
+// }
