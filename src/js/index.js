@@ -120,13 +120,16 @@ function filterGoods(product, filter) {
        console.log('---------------');
        console.log(product.manufacturer.id);
        console.log(filter.manufacturer);
-       console.log(product.manufacturer.id == filter.manufacturer.id);
+       console.log(product.manufacturer.id == filter.manufacturer);
        console.log('---------------');
-       // if (product.manufacturer.id == filter.manufacturer.id) {
-       //     return;
-       // }
+       if (product.manufacturer.id != filter.manufacturer) {
+           return false;
+       }
+
+       return true;
    }
 }
+
 
 // for (var key in productsList) {
 //     for (var i in params) {
