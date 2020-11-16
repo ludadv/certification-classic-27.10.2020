@@ -98,7 +98,7 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    let result = filterGoods(productsList, params);
+    let result = filterProduct(productsList[0], params);
     console.log(result);
 });
 
@@ -115,19 +115,20 @@ function setLocation(curLoc) {
 let productsList = require('data/goods');
 
 
-function filterGoods(product, filter) {
+function filterProduct(product, filter) {
+    console.log('Product', product);
+    console.log('Filter', filter);
     for (let key in product) {
-        if (typeof filter.manufacturer !== 'undefined') {
-            if (product[key] != filter.manufacturer) {
-                return false;
-
-            }
-            return true;
+        console.log('-----------------');
+        console.log('KEY: ', key);
+        if (typeof filter[key] !== 'undefined') {
+            let productValue = product[key].id;
+            console.log('productValue', productValue);
+            let filterValue = filter[key];
+            console.log('filterValue', filterValue);
         }
         // console.log(product[key]);
     }
-    // console.log('Product', product);
-    console.log('Filter', filter);
    //  if (typeof filter.manufacturer !== 'undefined') {
    //     if (product.manufacturer.id != filter.manufacturer) {
    //         return false;
