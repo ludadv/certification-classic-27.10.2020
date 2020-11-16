@@ -126,6 +126,9 @@ function filterProduct(product, filter) {
             console.log('productValue', productValue);
             let filterValue = filter[key];
             console.log('filterValue', filterValue);
+            if (productValue !== filterValue) {
+                return false;
+            }
         }
         // console.log(product[key]);
     }
@@ -145,4 +148,27 @@ function filterProduct(product, filter) {
    //
    //  return true;
 }
-
+let  husband = {
+    name: 'Jack',
+    sername: 'Wats',
+    age: 27,
+}
+let  wife = {
+    name: 'Jane',
+    sername: 'Wats',
+    age: 25
+}
+for (let key in husband) {
+    if (wife[key]) {
+        if (wife[key] != husband[key]) {
+            console.log('не совпало');
+        } else {
+            console.log('совпало');
+        }
+    }
+}
+let a = 10
+let b = 153;
+let c = 88;
+let d = Math.max(a, b, c);
+console.log(d);
