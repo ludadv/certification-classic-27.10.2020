@@ -67,6 +67,8 @@ $('input, select, .page').change(function () {
     }
 
     let params = {};
+    // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
+    // переменной page.
     if (page) {
         params['page'] = page;
     }
@@ -97,7 +99,8 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    filterGoods(productsList[2], params);
+    let rezult = filterGoods(productsList[2], params);
+    console.log(rezult);
 });
 
 // -----------------------------------------------------------------------------
@@ -117,17 +120,19 @@ function filterGoods(product, filter) {
     console.log('Product', product);
     console.log('Filter', filter);
     if (typeof filter.manufacturer !== 'undefined') {
-       console.log('---------------');
-       console.log(product.manufacturer.id);
-       console.log(filter.manufacturer);
-       console.log(product.manufacturer.id == filter.manufacturer);
-       console.log('---------------');
        if (product.manufacturer.id != filter.manufacturer) {
            return false;
        }
-
-       return true;
    }
+    if (typeof filter.model !== 'undefined') {
+        if (product.model.id != filter.model) {
+            return false;
+        }
+    }
+    if (typeof filter['brand'] !== 'undefined') {
+    }
+
+    return true;
 }
 
 
