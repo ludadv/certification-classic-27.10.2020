@@ -64,9 +64,10 @@ $('input, select, .page').change(function () {
             page: page,
         }
     }
-    console.log(rez);
 
     let params = {};
+    // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
+    // переменной page.
     if (page) {
         params['page'] = page;
     }
@@ -96,6 +97,9 @@ $('input, select, .page').change(function () {
     }
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
+
+    let rezult = filterGoods(productsList[2], params);
+    console.log(rezult);
 });
 
 // -----------------------------------------------------------------------------
@@ -108,40 +112,31 @@ function setLocation(curLoc) {
     location.hash = '#' + curLoc;
 }
 // -----------------------------------------------------------------------------
-// $.getJSON("goods.json", function(json) {
-//         console.log(json);
-//     }
-// );
-let data = require('data/goods.json');
-console.log(data);
-for (var key in data) {
-    console.log(data[key]);
+let productsList = require('data/goods');
+
+
+function filterGoods(product, filter) {
+    console.log('Product', product);
+    console.log('Filter', filter);
+    if (typeof filter.manufacturer !== 'undefined') {
+       if (product.manufacturer.id != filter.manufacturer) {
+           return false;
+       }
+   }
+    if (typeof filter.model !== 'undefined') {
+        if (product.model.id != filter.model) {
+            return false;
+        }
+    }
+    if (typeof filter['brand'] !== 'undefined') {
+    }
+
+    return true;
 }
 
-// const tasks = [
-//     {
-//         name: "test",
-//         type: "one"
-//     },
-//     {
-//         name: "test2",
-//         type: 'two'
-//     }
-// ];
-// const activities = [
-//     {
-//         name: "test",
-//         type: "one"
-//     },
-//     {
-//         name: "test2",
-//         type: 'two'
-//     },
-//     {
-//         name: "test3",
-//         type: "three"
-//     }
-// ];
 
-// let tests = activities.filter(a => tasks.some(t => t.type == a.type));
-// console.log(tests);
+// for (var key in productsList) {
+//     for (var i in params) {
+//
+//     }
+// }
