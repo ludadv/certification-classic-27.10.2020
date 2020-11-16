@@ -98,8 +98,8 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    let rezult = filterGoods(productsList[2], params);
-    console.log(rezult);
+    let result = filterGoods(productsList, params);
+    console.log(result);
 });
 
 // -----------------------------------------------------------------------------
@@ -116,27 +116,32 @@ let productsList = require('data/goods');
 
 
 function filterGoods(product, filter) {
-    console.log('Product', product);
-    console.log('Filter', filter);
-    if (typeof filter.manufacturer !== 'undefined') {
-       if (product.manufacturer.id != filter.manufacturer) {
-           return false;
-       }
-   }
-    if (typeof filter.model !== 'undefined') {
-        if (product.model.id != filter.model) {
-            return false;
-        }
-    }
-    if (typeof filter['brand'] !== 'undefined') {
-    }
+    for (let key in product) {
+        if (typeof filter.manufacturer !== 'undefined') {
+            if (product[key] != filter.manufacturer) {
+                return false;
 
-    return true;
+            }
+            return true;
+        }
+        // console.log(product[key]);
+    }
+    // console.log('Product', product);
+    console.log('Filter', filter);
+   //  if (typeof filter.manufacturer !== 'undefined') {
+   //     if (product.manufacturer.id != filter.manufacturer) {
+   //         return false;
+   //     }
+   // }
+   //  if (typeof filter.model !== 'undefined') {
+   //      if (product.model.id != filter.model) {
+   //          return false;
+   //      }
+   //  }
+   //  if (typeof filter['brand'] !== 'undefined') {
+   //
+   //  }
+   //
+   //  return true;
 }
 
-
-// for (var key in productsList) {
-//     for (var i in params) {
-//
-//     }
-// }
