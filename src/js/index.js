@@ -98,8 +98,8 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    let result = filterProduct(productsList, params);
-    console.log(result);
+    let result = filterProduct(productsList[0], params);
+    console.log('function result:', result);
 });
 
 // -----------------------------------------------------------------------------
@@ -115,27 +115,32 @@ function setLocation(curLoc) {
 let productsList = require('data/goods');
 
 function filterProduct(product, filter) {
-
-    // for (let key in product) {
-    //     console.log('-----------------');
-    //     console.log('KEY: ', key);
-    //     let productValue = product[key].id;
-    //     let filterValue = filter[key];
-    //     if (typeof filter[key] !== 'undefined') {
-    //         console.log('productValue', productValue);
-    //         console.log('filterValue', filterValue);
-    //         if (productValue != filterValue) {
-    //         }
-    //     }
-    // }
-    // return true;
+    console.log('Product: ', product);
+    console.log('Filter: ', filter);
     for (let key in product) {
-        // console.log(product[key].id);
-        if (filter.brand = Array) {
-            if (filter.brand = product[key]) {
-                return true;
+        console.log('-----------------');
+        console.log('KEY: ', key);
+        if (typeof filter[key] !== 'undefined') {
+            let productValue = String(product[key].id);
+            let filterValue = filter[key];
+            console.log('productValue', productValue);
+            console.log('filterValue', filterValue);
+            if (Array.isArray(filterValue)) {
+                console.log('array');
+                if (!filterValue.includes(productValue)) {
+                    console.log('not include');
+                    return false;
+                }
+            } else {
+                console.log('string');
+                if (productValue != filterValue) {
+                    console.log('not equal');
+                    return false;
+                }
             }
         }
     }
+
+    return true;
 }
 
