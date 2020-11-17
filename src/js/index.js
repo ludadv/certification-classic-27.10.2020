@@ -138,6 +138,7 @@ function filterProduct(product, filter) {
                     return false;
                 }
             }
+
         }
     }
 
