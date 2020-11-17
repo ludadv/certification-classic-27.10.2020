@@ -98,7 +98,7 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    let result = filterProduct(productsList[0], params);
+    let result = filterProduct(productsList, params);
     console.log(result);
 });
 
@@ -114,61 +114,28 @@ function setLocation(curLoc) {
 // -----------------------------------------------------------------------------
 let productsList = require('data/goods');
 
-
 function filterProduct(product, filter) {
-    console.log('Product', product);
-    console.log('Filter', filter);
+
+    // for (let key in product) {
+    //     console.log('-----------------');
+    //     console.log('KEY: ', key);
+    //     let productValue = product[key].id;
+    //     let filterValue = filter[key];
+    //     if (typeof filter[key] !== 'undefined') {
+    //         console.log('productValue', productValue);
+    //         console.log('filterValue', filterValue);
+    //         if (productValue != filterValue) {
+    //         }
+    //     }
+    // }
+    // return true;
     for (let key in product) {
-        console.log('-----------------');
-        console.log('KEY: ', key);
-        if (typeof filter[key] !== 'undefined') {
-            let productValue = product[key].id;
-            console.log('productValue', productValue);
-            let filterValue = filter[key];
-            console.log('filterValue', filterValue);
-            if (productValue !== filterValue) {
-                return false;
+        // console.log(product[key].id);
+        if (filter.brand = Array) {
+            if (filter.brand = product[key]) {
+                return true;
             }
         }
-        // console.log(product[key]);
-    }
-   //  if (typeof filter.manufacturer !== 'undefined') {
-   //     if (product.manufacturer.id != filter.manufacturer) {
-   //         return false;
-   //     }
-   // }
-   //  if (typeof filter.model !== 'undefined') {
-   //      if (product.model.id != filter.model) {
-   //          return false;
-   //      }
-   //  }
-   //  if (typeof filter['brand'] !== 'undefined') {
-   //
-   //  }
-   //
-   //  return true;
-}
-let  husband = {
-    name: 'Jack',
-    sername: 'Wats',
-    age: 27,
-}
-let  wife = {
-    name: 'Jane',
-    sername: 'Wats',
-    age: 25
-}
-for (let key in husband) {
-    if (wife[key]) {
-        if (wife[key] != husband[key]) {
-            console.log('не совпало');
-        } else {
-            console.log('совпало');
-        }
     }
 }
-let a = 10
-let b = 153;
-let c = 88;
-let d = Math.max(a, b, c);
-console.log(d);
+
