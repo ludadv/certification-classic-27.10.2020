@@ -74,11 +74,11 @@ $('input, select, .page').change(function () {
     if (year) {
         params['year'] = year;
     }
-    if (priceTo) {
-        params['priceTo'] = priceTo;
-    }
     if (priceFrom) {
         params['priceFrom'] = priceFrom;
+    }
+    if (priceTo) {
+        params['priceTo'] = priceTo;
     }
     if (model) {
         params['model'] = model;
@@ -98,8 +98,6 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    // let result = filterProduct(productsList[0], params);
-    // console.log('function result:', result);
     let result = filterProductNow(productsList[0], params);
     console.log('function result:', result);
 });
@@ -116,40 +114,10 @@ function setLocation(curLoc) {
 // -----------------------------------------------------------------------------
 let productsList = require('data/goods');
 
-// function filterProduct(product, filter) {
-//     console.log('Product: ', product);
-//     console.log('Filter: ', filter);
-//     for (let key in product) {
-//         console.log('-----------------');
-//         console.log('KEY: ', key);
-//         if (typeof filter[key] !== 'undefined') {
-//             let productValue = String(product[key].id);
-//             let filterValue = filter[key];
-//             console.log('productValue', productValue);
-//             console.log('filterValue', filterValue);
-//             if (Array.isArray(filterValue)) {
-//                 console.log('array');
-//                 if (!filterValue.includes(productValue)) {
-//                     console.log('not include');
-//                     return false;
-//                 }
-//             } else {
-//                 console.log('string');
-//                 if (productValue != filterValue) {
-//                     console.log('not equal');
-//                     return false;
-//                 }
-//             }
-//
-//         }
-//     }
-//
-//     return true;
-// }
-
 function filterProductNow (product, filter) {
     console.log(filter);
     console.log(product);
+    console.log(product.price.value);
     if (typeof filter.brand !== 'undefined') {
         let productValue = String(product.brand.id);
         if (!filter.brand.includes(productValue)) {
@@ -171,6 +139,7 @@ function filterProductNow (product, filter) {
             return false;
         }
     }
-
-    return true;
-};
+    if (!(product.price.value >= filter.priceFrom && product.price.value <= filter.priceTo)) {
+            return false;
+    }
+}
