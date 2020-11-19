@@ -103,7 +103,7 @@ $('input, select, .page').change(function () {
     //         showProduct(productsList[key]);
     //     }
     // }
-        let sorted = productsList.filter((filterProductNow(params)));
+        let sorted = productsList.filter(filterProductNow(params));
         console.log(sorted);
 });
 
