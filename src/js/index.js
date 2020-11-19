@@ -105,6 +105,7 @@ $('input, select, .page').change(function () {
     for (let key in productsList) {
         let result = filterProductNow(productsList[key], params);
         console.log('function result:', result);
+        showProduct(productsList[key]);
     }
 
 });
@@ -121,7 +122,12 @@ function setLocation(curLoc) {
 // -----------------------------------------------------------------------------
 let productsList = require('data/goods');
 
+function showProduct (product) {
+    console.log(product);
+}
+
 function filterProductNow (product, filter) {
+    // console.log(product);
     // console.log(filter);
     if (typeof filter.brand !== 'undefined') {
         let productValue = String(product.brand.id);
@@ -144,8 +150,9 @@ function filterProductNow (product, filter) {
             return false;
         }
     }
-    if (!(product.price.value >= filter.priceFrom && product.price.value <= filter.priceTo)) {
-            return false;
+    if (product.price.value < filter.priceFrom || product.price.value > filter.priceTo) {
+        return false;
     }
+
     return true;
 }
