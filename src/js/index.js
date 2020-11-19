@@ -98,15 +98,15 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-
-    for (let key in productsList) {
-        let priceValue = productsList[key].price.value;
-        if (filterProductNow(productsList[key], params)) {
-            showProduct(productsList[key]);
-        }
-    }
-
+    // for (let key in productsList) {
+    //     if (filterProductNow(productsList[key], params)) {
+    //         showProduct(productsList[key]);
+    //     }
+    // }
+        let sorted = productsList.filter((filterProductNow(params)));
+        console.log(sorted);
 });
+
 
 // -----------------------------------------------------------------------------
 function setLocation(curLoc) {
@@ -123,9 +123,9 @@ let productsList = require('data/goods');
 function showProduct (product) {
     console.log (product);
 }
-function sortPrice (a, b, price) {
-    return a - b;
-}
+// function sortPrice (a, b, price) {
+//     return a - b;
+// }
 function filterProductNow (product, filter) {
     // console.log(product);
     // console.log(filter);
