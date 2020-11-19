@@ -103,7 +103,8 @@ $('input, select, .page').change(function () {
     //         showProduct(productsList[key]);
     //     }
     // }
-        let sorted = productsList.filter(filterProductNow(params));
+        let sorted = productsList.filter(prod => filterProductNow(prod, params));
+    // const result = words.filter(word => word.length > 6);
         console.log(sorted);
 });
 
