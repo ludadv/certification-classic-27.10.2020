@@ -103,10 +103,16 @@ $('input, select, .page').change(function () {
     //         showProduct(productsList[key]);
     //     }
     // }
-        let sorted = productsList.filter(prod => filterProductNow(prod, params));
-    // const result = words.filter(word => word.length > 6);
-        console.log(sorted);
+    console.log(params);
+    let filtered = productsList.filter(prod => filterProductNow(prod, params));
+    console.log(filtered);
+    // let sorted = filtered.sort(item => sortPrice(item));
+    let sorted = filtered.slice().sort((a, b) => a.price.value - b.price.value);
+    console.log(sorted);
+
+
 });
+
 
 
 // -----------------------------------------------------------------------------
@@ -124,12 +130,11 @@ let productsList = require('data/goods');
 function showProduct (product) {
     console.log (product);
 }
-// function sortPrice (a, b, price) {
+// function sortPrice (a, b) {
 //     return a - b;
 // }
 function filterProductNow (product, filter) {
     // console.log(product);
-    // console.log(filter);
     if (typeof filter.brand !== 'undefined') {
         let productValue = String(product.brand.id);
         if (!filter.brand.includes(productValue)) {
@@ -154,6 +159,10 @@ function filterProductNow (product, filter) {
     if (product.price.value < filter.priceFrom || product.price.value > filter.priceTo) {
         return false;
     }
+    if (typeof filter.sort !== 'undefined') {
+        return false;
+    }
+
 
     return true;
 }
