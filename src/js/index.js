@@ -103,13 +103,16 @@ $('input, select, .page').change(function () {
     //         showProduct(productsList[key]);
     //     }
     // }
-    console.log(params);
     let filtered = productsList.filter(prod => filterProductNow(prod, params));
     console.log(filtered);
-    // let sorted = filtered.sort(item => sortPrice(item));
-    let sorted = filtered.slice().sort((a, b) => a.price.value - b.price.value);
-    console.log(sorted);
-
+    let sortedLess = filtered.slice().sort((a, b) => a.price.value - b.price.value);
+    console.log('Less', sortedLess);
+    let sortedMore = filtered.slice().sort((a, b) => b.price.value - a.price.value);
+    console.log('More', sortedMore);
+    let sortedOld = filtered.slice().sort((a, b) => a.year - b.year);
+    console.log('Old', sortedOld);
+    let sortedNew = filtered.slice().sort((a, b) => b.year - a.year);
+    console.log('New', sortedNew);
 
 });
 
@@ -159,10 +162,6 @@ function filterProductNow (product, filter) {
     if (product.price.value < filter.priceFrom || product.price.value > filter.priceTo) {
         return false;
     }
-    if (typeof filter.sort !== 'undefined') {
-        return false;
-    }
-
 
     return true;
 }
