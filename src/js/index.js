@@ -98,22 +98,20 @@ $('input, select, .page').change(function () {
     let paramsStr = $.param(params)
     setLocation('?' + paramsStr);
 
-    // for (let key in productsList) {
-    //     if (filterProductNow(productsList[key], params)) {
-    //         showProduct(productsList[key]);
-    //     }
-    // }
-    let filtered = productsList.filter(prod => filterProductNow(prod, params));
-    console.log(filtered);
-    let sortedLess = filtered.slice().sort((a, b) => a.price.value - b.price.value);
-    console.log('Less', sortedLess);
-    let sortedMore = filtered.slice().sort((a, b) => b.price.value - a.price.value);
-    console.log('More', sortedMore);
-    let sortedOld = filtered.slice().sort((a, b) => a.year - b.year);
-    console.log('Old', sortedOld);
-    let sortedNew = filtered.slice().sort((a, b) => b.year - a.year);
-    console.log('New', sortedNew);
+    let filteredProducts = productsList.filter(product => filterProductNow(product, params));
+    console.log(filteredProducts);
 
+    if (params.sort == 1) {
+        filteredProducts.sort((a, b) => a.price.value - b.price.value);
+    } else if (params.sort == 2) {
+        filteredProducts.sort((a, b) => b.price.value - a.price.value);
+    } else if (params.sort == 3) {
+        filteredProducts.sort((a, b) => a.year - b.year);
+    } else if (params.sort == 4) {
+        filteredProducts.sort((a, b) => b.year - a.year);
+    }
+
+    $("#js-inner").html("");
 });
 
 
@@ -131,11 +129,9 @@ function setLocation(curLoc) {
 let productsList = require('data/goods');
 
 function showProduct (product) {
-    console.log (product);
+    // console.log (product);
 }
-// function sortPrice (a, b) {
-//     return a - b;
-// }
+
 function filterProductNow (product, filter) {
     // console.log(product);
     if (typeof filter.brand !== 'undefined') {
