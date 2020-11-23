@@ -111,10 +111,20 @@ $('input, select, .page').change(function () {
         filteredProducts.sort((a, b) => b.year - a.year);
     }
 
-    $("#js-inner").html("");
+    if ('content' in document.createElement('template')) {
+
+    }
+        $("#js-inner").html("");
+    showProduct(filteredProducts);
+    if (supportsTemplate()) {
+        let template = document.querySelector('#product-show');
+        let clone = template.content.cloneNode(true);
+    } else {
+        // Use old templating techniques or libraries.
+    }
+
+
 });
-
-
 
 // -----------------------------------------------------------------------------
 function setLocation(curLoc) {
@@ -129,7 +139,17 @@ function setLocation(curLoc) {
 let productsList = require('data/goods');
 
 function showProduct (product) {
-    // console.log (product);
+    for (let key in product) {
+        if (supportsTemplate()) {
+            let template = document.querySelector('#product-show');
+            let clone = template.content.cloneNode(true);
+            $('js-brand').append(product[key].brand.name);
+            template.parentNode.appendChild(clone);
+        } else {
+            // Use old templating techniques or libraries.
+        }
+
+    }
 }
 
 function filterProductNow (product, filter) {
@@ -161,3 +181,8 @@ function filterProductNow (product, filter) {
 
     return true;
 }
+
+function supportsTemplate() {
+    return 'content' in document.createElement('template');
+}
+
