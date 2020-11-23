@@ -111,19 +111,10 @@ $('input, select, .page').change(function () {
         filteredProducts.sort((a, b) => b.year - a.year);
     }
 
-    if ('content' in document.createElement('template')) {
-
-    }
-        $("#js-inner").html("");
-    showProduct(filteredProducts);
-    if (supportsTemplate()) {
-        let template = document.querySelector('#product-show');
-        let clone = template.content.cloneNode(true);
-    } else {
-        // Use old templating techniques or libraries.
-    }
-
-
+    $("#js-inner").html("");
+    filteredProducts.forEach(function (product) {
+        showProduct(product);
+    });
 });
 
 // -----------------------------------------------------------------------------
@@ -139,17 +130,17 @@ function setLocation(curLoc) {
 let productsList = require('data/goods');
 
 function showProduct (product) {
-    for (let key in product) {
-        if (supportsTemplate()) {
-            let template = document.querySelector('#product-show');
-            let clone = template.content.cloneNode(true);
-            $('js-brand').append(product[key].brand.name);
-            template.parentNode.appendChild(clone);
-        } else {
-            // Use old templating techniques or libraries.
-        }
+    let template = document.querySelector('#product-show');
+    let clone = template.content.cloneNode(true);
+    let $clone = $(clone);
+    $clone.find('.js-card-brand').text(product.brand.name);
+    $clone.find('.js-card-image').attr('src', product.image.sizes['card-preview']).attr('alt', product.image.alt);
+    $clone.find('.js-card-manufacturer').text(product.manufacturer.name);
+    $clone.find('.js-card-year').text(product.year + ' ' + 'год');
+    $clone.find('.js-card-model').text(product.model.name);
+    $clone.find('.js-card-price').text(product.price.currency.symbol + product.price.value);
 
-    }
+    $("#js-inner").append($clone);
 }
 
 function filterProductNow (product, filter) {
@@ -182,7 +173,4 @@ function filterProductNow (product, filter) {
     return true;
 }
 
-function supportsTemplate() {
-    return 'content' in document.createElement('template');
-}
 
