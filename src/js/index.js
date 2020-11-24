@@ -10,6 +10,8 @@ import 'sass#/style.scss';
 // -----------------------------------------------------------------------------
 // Initialize
 // -----------------------------------------------------------------------------
+let productsList = require('data/goods');
+// -----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
     let optgroup = $('#year').append(`<optgroup label="70-ыe" class="seventies"></optgroup>`);
     for (let year = 1973; year <= 2021; year++) {
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         optgroup.append(`<option value="${year}">${year}</option>`);
     }
-// -----------------------------------------------------------------------------
+
     let maxHeight = 0;
     $(".card").each(function () {
         if ($(this).height() > maxHeight) {
@@ -37,7 +39,18 @@ document.addEventListener("DOMContentLoaded", function () {
     $(".card").height(maxHeight);
 });
 // -----------------------------------------------------------------------------
-$('input, select, .page').change(function () {
+$('input, select').change(function () {
+    doAll();
+});
+// -----------------------------------------------------------------------------
+$('.js-page').on('click', function () {
+    $('.js-page.active').removeClass('active');
+    $(this).addClass('active');
+
+    doAll();
+});
+// -----------------------------------------------------------------------------
+function doAll() {
     let brand = [];
     $('input[name="brand"]:checked').each(function () {
         brand.push($(this).val());
@@ -49,7 +62,7 @@ $('input, select, .page').change(function () {
     let priceTo = $('#price-to').val();
     let sort = $('#sort').val();
     let perPage = $('#per_page').val();
-    let page = $('.pagination a.active').data('page');
+    let page = getActivePage();
     let rez = {
         params: {
             brand: brand,
@@ -99,7 +112,6 @@ $('input, select, .page').change(function () {
     setLocation('?' + paramsStr);
 
     let filteredProducts = productsList.filter(product => filterProductNow(product, params));
-    console.log(filteredProducts);
 
     if (params.sort == 1) {
         filteredProducts.sort((a, b) => a.price.value - b.price.value);
@@ -111,36 +123,20 @@ $('input, select, .page').change(function () {
         filteredProducts.sort((a, b) => b.year - a.year);
     }
 
+    let pageNum = getActivePage();
+    let from = (pageNum - 1) * perPage;
+    let to = +from + +perPage;
+    console.log('perPage', perPage);
+    console.log('from', from);
+    console.log('to', to);
+    let result = filteredProducts.slice(from, to);
+
     $("#js-inner").html("");
     filteredProducts.forEach(function (product) {
         showProduct(product);
     });
-});
 
-// пагинация
-// let items = $('.js-item')
-let productPerPage = 3;
-//
-// for (let item in items) {
-//     $(this).on( "click", function() {
-//         let pageNum = this;
-//         console.log(pageNum);
-//         let start = (pageNum - 1) * productPerPage;
-//         let end = start + productPerPage;
-//         let notes = filteredProducts.slice(start, end);
-//         console.log(notes);
-//     });
-// }
-let row = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница'];
-$('.js-item').on( "click", function() {
-    // console.log('привет');
-    let pageNum = this;
-    let start = (pageNum - 1) * productPerPage;
-    let end = start + productPerPage;
-    let notes = row.slice(2, 4);
-        console.log(notes);
-});
-
+}
 // -----------------------------------------------------------------------------
 function setLocation(curLoc) {
     try {
@@ -151,8 +147,6 @@ function setLocation(curLoc) {
     location.hash = '#' + curLoc;
 }
 // -----------------------------------------------------------------------------
-let productsList = require('data/goods');
-
 function showProduct (product) {
     let template = document.querySelector('#product-show');
     let clone = template.content.cloneNode(true);
@@ -166,10 +160,18 @@ function showProduct (product) {
 
     $("#js-inner").append($clone);
 }
+// -----------------------------------------------------------------------------
+function getActivePage() {
+    let page = $('.pagination li.active').data('page');
 
-
-
-
+    return page;
+}
+// -----------------------------------------------------------------------------
+// function setActivePage(page) {
+//     $('.pagination li').removeClass('active');
+//     $('.pagination li').addClass('active');
+// }
+// -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
     // console.log(product);
     if (typeof filter.brand !== 'undefined') {
@@ -199,5 +201,5 @@ function filterProductNow (product, filter) {
 
     return true;
 }
-
+// -----------------------------------------------------------------------------
 
