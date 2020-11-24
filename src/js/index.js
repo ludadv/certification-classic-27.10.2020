@@ -115,14 +115,30 @@ $('input, select, .page').change(function () {
     filteredProducts.forEach(function (product) {
         showProduct(product);
     });
+});
 
-
-    // пагинация
-    let items = document.querySelectorAll('.js-item')
-    console.log(items);
-    let productPerPage = 6;
-
-
+// пагинация
+// let items = $('.js-item')
+let productPerPage = 3;
+//
+// for (let item in items) {
+//     $(this).on( "click", function() {
+//         let pageNum = this;
+//         console.log(pageNum);
+//         let start = (pageNum - 1) * productPerPage;
+//         let end = start + productPerPage;
+//         let notes = filteredProducts.slice(start, end);
+//         console.log(notes);
+//     });
+// }
+let row = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница'];
+$('.js-item').on( "click", function() {
+    // console.log('привет');
+    let pageNum = this;
+    let start = (pageNum - 1) * productPerPage;
+    let end = start + productPerPage;
+    let notes = row.slice(2, 4);
+        console.log(notes);
 });
 
 // -----------------------------------------------------------------------------
