@@ -115,6 +115,14 @@ $('input, select, .page').change(function () {
     filteredProducts.forEach(function (product) {
         showProduct(product);
     });
+
+
+    // пагинация
+    let items = document.querySelectorAll('.js-item')
+    console.log(items);
+    let productPerPage = 6;
+
+
 });
 
 // -----------------------------------------------------------------------------
@@ -142,6 +150,9 @@ function showProduct (product) {
 
     $("#js-inner").append($clone);
 }
+
+
+
 
 function filterProductNow (product, filter) {
     // console.log(product);
