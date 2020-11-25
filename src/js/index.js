@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // -----------------------------------------------------------------------------
 $('input, select').change(function () {
-    setActivePage(getActivePage());
+    setActivePage(1);
     doAll();
 });
 // -----------------------------------------------------------------------------
@@ -127,6 +127,8 @@ function doAll() {
     let to = +from + +perPage;
     let paginatedProducts = filteredProducts.slice(from, to);
 
+    getPaginationPage(filteredProducts, perPage);
+
     $("#js-inner").html("");
     paginatedProducts.forEach(function (product) {
         showProduct(product);
@@ -165,6 +167,11 @@ function getActivePage() {
 function setActivePage(page) {
     $('.pagination li.active').removeClass('active');
     $('.pagination li[data-page="' + page + '"]').addClass('active');
+}
+// -----------------------------------------------------------------------------
+function getPaginationPage (products, page) {
+    let paginationPage = products.length / page;
+    return paginationPage;
 }
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
