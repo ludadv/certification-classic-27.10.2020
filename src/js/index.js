@@ -127,7 +127,8 @@ function doAll() {
     let to = +from + +perPage;
     let paginatedProducts = filteredProducts.slice(from, to);
 
-    getPaginationPage(filteredProducts, perPage);
+    let productsLength = filteredProducts.length;
+    createPagination(productsLength, perPage);
 
     $("#js-inner").html("");
     paginatedProducts.forEach(function (product) {
@@ -169,9 +170,11 @@ function setActivePage(page) {
     $('.pagination li[data-page="' + page + '"]').addClass('active');
 }
 // -----------------------------------------------------------------------------
-function getPaginationPage (products, page) {
-    let paginationPage = products.length / page;
-    return paginationPage;
+function createPagination (products, page) {
+    let paginationPage = Math.round(products / page);
+    if (products % page !== 0) {
+        console.log(paginationPage + 1);
+    }
 }
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
