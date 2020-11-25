@@ -40,13 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // -----------------------------------------------------------------------------
 $('input, select').change(function () {
+    setActivePage(getActivePage());
     doAll();
 });
 // -----------------------------------------------------------------------------
 $('.js-page').on('click', function () {
     $('.js-page.active').removeClass('active');
     $(this).addClass('active');
-
     doAll();
 });
 // -----------------------------------------------------------------------------
@@ -122,7 +122,6 @@ function doAll() {
     } else if (params.sort == 4) {
         filteredProducts.sort((a, b) => b.year - a.year);
     }
-
     let pageNum = getActivePage();
     let from = (pageNum - 1) * perPage;
     let to = +from + +perPage;
@@ -165,8 +164,7 @@ function getActivePage() {
 // -----------------------------------------------------------------------------
 function setActivePage(page) {
     $('.pagination li.active').removeClass('active');
-    $('.pagination li[data-page="1"]').addClass('active');
-
+    $('.pagination li[data-page="' + page + '"]').addClass('active');
 }
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
