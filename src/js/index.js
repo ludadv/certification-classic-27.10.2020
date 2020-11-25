@@ -126,16 +126,12 @@ function doAll() {
     let pageNum = getActivePage();
     let from = (pageNum - 1) * perPage;
     let to = +from + +perPage;
-    console.log('perPage', perPage);
-    console.log('from', from);
-    console.log('to', to);
-    let result = filteredProducts.slice(from, to);
+    let paginatedProducts = filteredProducts.slice(from, to);
 
     $("#js-inner").html("");
-    filteredProducts.forEach(function (product) {
+    paginatedProducts.forEach(function (product) {
         showProduct(product);
     });
-
 }
 // -----------------------------------------------------------------------------
 function setLocation(curLoc) {
@@ -167,10 +163,11 @@ function getActivePage() {
     return page;
 }
 // -----------------------------------------------------------------------------
-// function setActivePage(page) {
-//     $('.pagination li').removeClass('active');
-//     $('.pagination li').addClass('active');
-// }
+function setActivePage(page) {
+    $('.pagination li.active').removeClass('active');
+    $('.pagination li[data-page="1"]').addClass('active');
+
+}
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
     // console.log(product);
