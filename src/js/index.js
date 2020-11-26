@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 group = '2k' + year % 100;
             }
-            let optgroup = $('#year').append(`<optgroup label="${group}" class="seventies"></optgroup>`);
+            optgroup = $('#year').append(`<optgroup label="${group}" class="seventies"></optgroup>`);
         }
         optgroup.append(`<option value="${year}">${year}</option>`);
     }
@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $(".card").height(maxHeight);
+
+    doAll();
 });
 // -----------------------------------------------------------------------------
 $('input, select').change(function () {
@@ -44,9 +46,38 @@ $('input, select').change(function () {
     doAll();
 });
 // -----------------------------------------------------------------------------
-$('.js-page').on('click', function () {
+$('.js-pagination').on('click', '.js-page', function () {
     $('.js-page.active').removeClass('active');
     $(this).addClass('active');
+
+    doAll();
+});
+// -----------------------------------------------------------------------------
+$('.js-first-page').on('click', function () {
+    setActivePage(1);
+    doAll();
+});
+// -----------------------------------------------------------------------------
+$('.js-prev-page').on('click', function () {
+    let activePage = getActivePage();
+    if (activePage > 1) {
+        setActivePage(activePage - 1);
+        doAll();
+    }
+});
+// -----------------------------------------------------------------------------
+$('.js-next-page').on('click', function () {
+    let pagesCount = $('.js-pagination').data('pages-count');
+    let activePage = getActivePage();
+    if (activePage < pagesCount) {
+        setActivePage(activePage + 1);
+        doAll();
+    }
+});
+// -----------------------------------------------------------------------------
+$('.js-last-page').on('click', function () {
+    let pagesCount = $('.js-pagination').data('pages-count');
+    setActivePage(pagesCount);
     doAll();
 });
 // -----------------------------------------------------------------------------
@@ -127,7 +158,7 @@ function doAll() {
     let to = +from + +perPage;
     let paginatedProducts = filteredProducts.slice(from, to);
 
-    createPagination(filteredProducts.length, perPage);
+    createPagination(filteredProducts.length, perPage, pageNum);
 
     $("#js-inner").html("");
     paginatedProducts.forEach(function (product) {
@@ -169,15 +200,27 @@ function setActivePage(page) {
     $('.pagination li[data-page="' + page + '"]').addClass('active');
 }
 // -----------------------------------------------------------------------------
-function createPagination (products, page) {
-    let paginationPage = Math.round(products / page);
-    if (products % page !== 0) {
-        paginationPage + 1;
+function createPagination (products, perPage, activePageNo) {
+    let pagesCount = Math.round(products / perPage);
+    if (products % perPage !== 0) {
+        pagesCount + 1;
     }
+
+    $('.js-pagination').data('pages-count', pagesCount);
+
     $('.js-page').remove();
-    for (let i = paginationPage; i >= 1; i--) {
-        console.log(i);
-        $('.js-prev-page').after('<li class="js-page" data-page="i">' + i + '</li>');
+    for (let i = pagesCount; i >= 1; i--) {
+        let classActive = '';
+        if (i == activePageNo) {
+            classActive = 'active';
+        }
+        $('.js-prev-page').after(`<li class="js-page ${classActive}" data-page="${i}">${i}</li>`);
+
+        // let $button = $('<li>').addClass('js-page').data('page', i).text(i);
+        // if (i == activePageNo) {
+        //     $button.addClass('active');
+        // }
+        // $('.js-prev-page').after($button);
     }
 }
 // -----------------------------------------------------------------------------
