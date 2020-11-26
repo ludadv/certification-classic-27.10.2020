@@ -175,7 +175,7 @@ function createPagination (products, page) {
         console.log(paginationPage + 1);
     }
     $('.js-page').remove();
-    $('.js-prev-page').after('<li class="js-page" data-page="2">2</li>');
+        $('.js-prev-page').after('<li class="js-page" data-page="i">2</li>');
 }
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
