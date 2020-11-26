@@ -127,8 +127,7 @@ function doAll() {
     let to = +from + +perPage;
     let paginatedProducts = filteredProducts.slice(from, to);
 
-    let productsLength = filteredProducts.length;
-    createPagination(productsLength, perPage);
+    createPagination(filteredProducts.length, perPage);
 
     $("#js-inner").html("");
     paginatedProducts.forEach(function (product) {
@@ -175,6 +174,8 @@ function createPagination (products, page) {
     if (products % page !== 0) {
         console.log(paginationPage + 1);
     }
+    $('.js-page').remove();
+    $('.js-prev-page').after('<li class="js-page" data-page="2">2</li>');
 }
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
