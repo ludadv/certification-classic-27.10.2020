@@ -172,10 +172,13 @@ function setActivePage(page) {
 function createPagination (products, page) {
     let paginationPage = Math.round(products / page);
     if (products % page !== 0) {
-        console.log(paginationPage + 1);
+        paginationPage + 1;
     }
     $('.js-page').remove();
-        $('.js-prev-page').after('<li class="js-page" data-page="i">2</li>');
+    for (let i = paginationPage; i >= 1; i--) {
+        console.log(i);
+        $('.js-prev-page').after('<li class="js-page" data-page="i">' + i + '</li>');
+    }
 }
 // -----------------------------------------------------------------------------
 function filterProductNow (product, filter) {
