@@ -95,6 +95,8 @@ jQuery(function ($) {
         let sort = $('#sort').val();
         let perPage = $('#per_page').val();
         let page = getActivePage();
+        let minPrice = $('#price-from').data('min-price');
+        let maxPrice = $('#price-to').data('max-price');
         let result = {
             params: {
                 brand: brand,
@@ -109,37 +111,71 @@ jQuery(function ($) {
                 page: page,
             }
         }
-
         let params = {};
-        // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
-        // переменной page.
-        if (page) {
-            params['page'] = page;
-        }
-        if (year) {
-            params['year'] = year;
-        }
-        if (priceFrom) {
-            params['priceFrom'] = priceFrom;
-        }
-        if (priceTo) {
-            params['priceTo'] = priceTo;
-        }
-        if (model) {
-            params['model'] = model;
+        let pagination = {};
+        // -----------------------------------------------------------
+        if (brand.length > 0) {
+            params['brand'] = brand;
         }
         if (manufacturer) {
             params['manufacturer'] = manufacturer;
         }
-        if (brand.length > 0) {
-            params['brand'] = brand;
+        if (model) {
+            params['model'] = model;
         }
-        if (sort) {
-            params['sort'] = sort;
+        if (year) {
+            params['year'] = year;
         }
-        if (perPage) {
-            params['perPage'] = perPage;
+        if (priceFrom != minPrice) {
+            params['priceFrom'] = priceFrom;
         }
+        if (priceTo != maxPrice) {
+            params['priceTo'] = priceTo;
+        }
+
+        if (sort !== "1") {
+            pagination['sort'] = sort;
+        }
+        if (perPage !== "6") {
+            pagination['perPage'] = perPage;
+        }
+        if (page) {
+            pagination['page'] = page;
+        }
+        console.log(result);
+
+        // -----------------------------------------------------------
+
+        // let params = {};
+        // // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
+        // // переменной page.
+        // if (page) {
+        //     params['page'] = page;
+        // }
+        // if (year) {
+        //     params['year'] = year;
+        // }
+        // if (priceFrom != minPrice) {
+        //     params['priceFrom'] = priceFrom;
+        // }
+        // if (priceTo != maxPrice) {
+        //     params['priceTo'] = priceTo;
+        // }
+        // if (model) {
+        //     params['model'] = model;
+        // }
+        // if (manufacturer) {
+        //     params['manufacturer'] = manufacturer;
+        // }
+        // if (brand.length > 0) {
+        //     params['brand'] = brand;
+        // }
+        // if (sort !== "1") {
+        //     params['sort'] = sort;
+        // }
+        // if (perPage !== "6") {
+        //     params['perPage'] = perPage;
+        // }
         let paramsStr = $.param(params)
         setLocation('?' + paramsStr);
 
@@ -147,11 +183,11 @@ jQuery(function ($) {
 
         if (params.sort === 1) {
             filteredProducts.sort((a, b) => a.price.value - b.price.value);
-        } else if (params.sort == 2) {
+        } else if (params.sort === 2) {
             filteredProducts.sort((a, b) => b.price.value - a.price.value);
-        } else if (params.sort == 3) {
+        } else if (params.sort === 3) {
             filteredProducts.sort((a, b) => a.year - b.year);
-        } else if (params.sort == 4) {
+        } else if (params.sort === 4) {
             filteredProducts.sort((a, b) => b.year - a.year);
         }
         let pageNum = getActivePage();
