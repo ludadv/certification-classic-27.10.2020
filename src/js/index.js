@@ -97,6 +97,7 @@ jQuery(function ($) {
         let page = getActivePage();
         let minPrice = $('#price-from').data('min-price');
         let maxPrice = $('#price-to').data('max-price');
+
         let result = {
             params: {
                 brand: brand,
@@ -111,46 +112,17 @@ jQuery(function ($) {
                 page: page,
             }
         }
-        let params = {};
-        let pagination = {};
-        // -----------------------------------------------------------
-        if (brand.length > 0) {
-            params['brand'] = brand;
-        }
-        if (manufacturer) {
-            params['manufacturer'] = manufacturer;
-        }
-        if (model) {
-            params['model'] = model;
-        }
-        if (year) {
-            params['year'] = year;
-        }
-        if (priceFrom != minPrice) {
-            params['priceFrom'] = priceFrom;
-        }
-        if (priceTo != maxPrice) {
-            params['priceTo'] = priceTo;
-        }
-
-        if (sort !== "1") {
-            pagination['sort'] = sort;
-        }
-        if (perPage !== "6") {
-            pagination['perPage'] = perPage;
-        }
-        if (page) {
-            pagination['page'] = page;
-        }
-        console.log(result);
-
-        // -----------------------------------------------------------
-
         // let params = {};
-        // // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
-        // // переменной page.
-        // if (page) {
-        //     params['page'] = page;
+        // let pagination = {};
+        //
+        // if (brand.length > 0) {
+        //     params['brand'] = brand;
+        // }
+        // if (manufacturer) {
+        //     params['manufacturer'] = manufacturer;
+        // }
+        // if (model) {
+        //     params['model'] = model;
         // }
         // if (year) {
         //     params['year'] = year;
@@ -161,35 +133,78 @@ jQuery(function ($) {
         // if (priceTo != maxPrice) {
         //     params['priceTo'] = priceTo;
         // }
-        // if (model) {
-        //     params['model'] = model;
-        // }
-        // if (manufacturer) {
-        //     params['manufacturer'] = manufacturer;
-        // }
-        // if (brand.length > 0) {
-        //     params['brand'] = brand;
-        // }
+        //
         // if (sort !== "1") {
-        //     params['sort'] = sort;
+        //     pagination['sort'] = sort;
         // }
         // if (perPage !== "6") {
-        //     params['perPage'] = perPage;
+        //     pagination['perPage'] = perPage;
         // }
-        let paramsStr = $.param(params)
+        // if (page) {
+        //     pagination['page'] = page;
+        // }
+        // console.log(result.params);
+
+        // -----------------------------------------------------------
+
+        let params = {};
+        // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
+        // переменной page.
+        if (page) {
+            params['page'] = page;
+        }
+        if (year) {
+            params['year'] = year;
+        }
+        if (priceFrom != minPrice) {
+            params['priceFrom'] = priceFrom;
+        }
+        if (priceTo != maxPrice) {
+            params['priceTo'] = priceTo;
+        }
+        if (model) {
+            params['model'] = model;
+        }
+        if (manufacturer) {
+            params['manufacturer'] = manufacturer;
+        }
+        if (brand.length > 0) {
+            params['brand'] = brand;
+        }
+        if (sort !== '1') {
+            params['sort'] = sort;
+        }
+        if (perPage !== '6') {
+            params['perPage'] = perPage;
+        }
+        let paramsStr = $.param(params);
         setLocation('?' + paramsStr);
 
         let filteredProducts = productsList.filter(product => filterProductNow(product, params));
-
-        if (params.sort === 1) {
-            filteredProducts.sort((a, b) => a.price.value - b.price.value);
-        } else if (params.sort === 2) {
-            filteredProducts.sort((a, b) => b.price.value - a.price.value);
-        } else if (params.sort === 3) {
-            filteredProducts.sort((a, b) => a.year - b.year);
-        } else if (params.sort === 4) {
-            filteredProducts.sort((a, b) => b.year - a.year);
+        // if (params.sort === '1') {
+        //     filteredProducts.sort((a, b) => a.price.value - b.price.value);
+        // } else if (params.sort === '2') {
+        //     filteredProducts.sort((a, b) => b.price.value - a.price.value);
+        // } else if (params.sort === '3') {
+        //     filteredProducts.sort((a, b) => a.year - b.year);
+        // } else if (params.sort === '4') {
+        //     filteredProducts.sort((a, b) => b.year - a.year);
+        // }
+        switch (params.sort) {
+            case '1':
+                filteredProducts.sort((item1, item2) => item1.price.value - item2.price.value);
+                break;
+            case '2':
+                filteredProducts.sort((item1, item2) => item2.price.value - item1.price.value);
+                break;
+            case '3':
+                filteredProducts.sort((item1, item2) => item1.year - item2.year);
+                break;
+            case '4':
+                filteredProducts.sort((item1, item2) => item2.year - item1.year);
+                break;
         }
+
         let pageNum = getActivePage();
         let from = (pageNum - 1) * perPage;
         let to = +from + +perPage;
@@ -240,8 +255,10 @@ jQuery(function ($) {
     function createPagination (products, perPage, activePageNo) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            ++pagesCount;//TODO
+            pagesCount//TODO
+            console.log(pagesCount);
         }
+        console.log(pagesCount);
 
         $('.js-pagination').data('pages-count', pagesCount);
 
