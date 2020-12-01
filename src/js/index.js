@@ -213,9 +213,8 @@ jQuery(function ($) {
     function createPagination (products, perPage, activePageNumber) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            pagesCount = pagesCount + 1;//TODO
+            pagesCount + 1;//TODO
         }
-        pagesCount;
         $('.js-pagination').data('pages-count', pagesCount);
 
         $('.js-page').remove();
