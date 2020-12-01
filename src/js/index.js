@@ -111,17 +111,15 @@ jQuery(function ($) {
                 page: page,
             }
         }
-        let params = {};
-        let pagination = {};
+        console.log(result);
+
         // -----------------------------------------------------------
-        if (brand.length > 0) {
-            params['brand'] = brand;
-        }
-        if (manufacturer) {
-            params['manufacturer'] = manufacturer;
-        }
-        if (model) {
-            params['model'] = model;
+
+        let params = {};
+        // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
+        // переменной page.
+        if (page) {
+            params['page'] = page;
         }
         if (year) {
             params['year'] = year;
@@ -132,62 +130,33 @@ jQuery(function ($) {
         if (priceTo != maxPrice) {
             params['priceTo'] = priceTo;
         }
-
-        if (sort !== "1") {
-            pagination['sort'] = sort;
+        if (model) {
+            params['model'] = model;
         }
-        if (perPage !== "6") {
-            pagination['perPage'] = perPage;
+        if (manufacturer) {
+            params['manufacturer'] = manufacturer;
         }
-        if (page) {
-            pagination['page'] = page;
+        if (brand.length > 0) {
+            params['brand'] = brand;
         }
-        console.log(result);
-
-        // -----------------------------------------------------------
-
-        // let params = {};
-        // // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
-        // // переменной page.
-        // if (page) {
-        //     params['page'] = page;
-        // }
-        // if (year) {
-        //     params['year'] = year;
-        // }
-        // if (priceFrom != minPrice) {
-        //     params['priceFrom'] = priceFrom;
-        // }
-        // if (priceTo != maxPrice) {
-        //     params['priceTo'] = priceTo;
-        // }
-        // if (model) {
-        //     params['model'] = model;
-        // }
-        // if (manufacturer) {
-        //     params['manufacturer'] = manufacturer;
-        // }
-        // if (brand.length > 0) {
-        //     params['brand'] = brand;
-        // }
-        // if (sort !== "1") {
-        //     params['sort'] = sort;
-        // }
-        // if (perPage !== "6") {
-        //     params['perPage'] = perPage;
-        // }
+        if (sort !== '1') {
+            params['sort'] = sort;
+        }
+        if (perPage !== '6') {
+            params['perPage'] = perPage;
+        }
         let paramsStr = $.param(params)
         setLocation('?' + paramsStr);
 
         let filteredProducts = productsList.filter(product => filterProductNow(product, params));
 
-        if (params.sort === 1) {
+        if (params.sort === '1') {
             filteredProducts.sort((a, b) => a.price.value - b.price.value);
-        } else if (params.sort === 2) {
+        } else if (params.sort === '2') {
             filteredProducts.sort((a, b) => b.price.value - a.price.value);
-        } else if (params.sort === 3) {
+        } else if (params.sort === '3') {
             filteredProducts.sort((a, b) => a.year - b.year);
-        } else if (params.sort === 4) {
+        } else if (params.sort === '4') {
             filteredProducts.sort((a, b) => b.year - a.year);
         }
         let pageNum = getActivePage();
