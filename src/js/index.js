@@ -139,7 +139,7 @@ jQuery(function ($) {
         if (brand.length > 0) {
             params['brand'] = brand;
         }
-        if (sort !== '1') {
+        if (sort) {
             params['sort'] = sort;
         }
         if (perPage !== '6') {
@@ -149,15 +149,19 @@ jQuery(function ($) {
         setLocation('?' + paramsStr);
 
         let filteredProducts = productsList.filter(product => filterProductNow(product, params));
-
-        if (params.sort === '1') {
-            filteredProducts.sort((a, b) => a.price.value - b.price.value);
-        } else if (params.sort === '2') {
-            filteredProducts.sort((a, b) => b.price.value - a.price.value);
-        } else if (params.sort === '3') {
-            filteredProducts.sort((a, b) => a.year - b.year);
-        } else if (params.sort === '4') {
-            filteredProducts.sort((a, b) => b.year - a.year);
+        switch (params.sort) {
+            case '1':
+                filteredProducts.sort((product1, product2) => product1.price.value - product2.price.value);
+                break;
+            case '2':
+                filteredProducts.sort((product1, product2) => product2.price.value - product1.price.value);
+                break;
+            case '3':
+                filteredProducts.sort((product1, product2) => product1.year - product2.year);
+                break;
+            case '4':
+                filteredProducts.sort((product1, product2) => product2.year - product1.year);
+                break;
         }
         let pageNum = getActivePage();
         let from = (pageNum - 1) * perPage;
@@ -206,18 +210,18 @@ jQuery(function ($) {
         $('.pagination li[data-page="' + page + '"]').addClass('active');
     }
     // -----------------------------------------------------------------------------
-    function createPagination (products, perPage, activePageNo) {
+    function createPagination (products, perPage, activePageNumber) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            ++pagesCount;//TODO
+            pagesCount = pagesCount + 1;//TODO
         }
-
+        pagesCount;
         $('.js-pagination').data('pages-count', pagesCount);
 
         $('.js-page').remove();
         for (let i = pagesCount; i >= 1; i--) {
             let classActive = '';
-            if (i === activePageNo) {
+            if (i === activePageNumber) {
                 classActive = 'active';
             }
             $('.js-prev-page').after(`<li class="js-page ${classActive}" data-page="${i}">${i}</li>`);
