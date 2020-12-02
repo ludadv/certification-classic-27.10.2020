@@ -42,6 +42,17 @@ jQuery(function ($) {
 
     doAll();
     // -----------------------------------------------------------------------------
+    window.addEventListener ('popstate', function () {
+        let searchParams = new URLSearchParams(window.location.search);
+        if (searchParams.has('page')) {
+            let page = searchParams.get('page');
+            setActivePage(page);
+            console.log('page', page);
+        }
+
+        // doAll();
+    });
+    // -----------------------------------------------------------------------------
     $('input, select').change(function () {
         setActivePage(1);
         doAll();
