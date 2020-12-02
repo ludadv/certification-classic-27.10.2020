@@ -97,7 +97,13 @@ jQuery(function ($) {
         let page = getActivePage();
         let minPrice = $('#price-from').data('min-price');
         let maxPrice = $('#price-to').data('max-price');
+        // _______________________________________________
+        let data = $('#filter').serializeArray();
+        $.each(data,function(){
+            console.log(this.name+'='+this.value);
+        });
 
+        // _______________________________________________
         let result = {
             params: {
                 brand: brand,
@@ -112,46 +118,12 @@ jQuery(function ($) {
                 page: page,
             }
         }
-        // let params = {};
-        // let pagination = {};
-        //
-        // if (brand.length > 0) {
-        //     params['brand'] = brand;
-        // }
-        // if (manufacturer) {
-        //     params['manufacturer'] = manufacturer;
-        // }
-        // if (model) {
-        //     params['model'] = model;
-        // }
-        // if (year) {
-        //     params['year'] = year;
-        // }
-        // if (priceFrom != minPrice) {
-        //     params['priceFrom'] = priceFrom;
-        // }
-        // if (priceTo != maxPrice) {
-        //     params['priceTo'] = priceTo;
-        // }
-        //
-        // if (sort !== "1") {
-        //     pagination['sort'] = sort;
-        // }
-        // if (perPage !== "6") {
-        //     pagination['perPage'] = perPage;
-        // }
-        // if (page) {
-        //     pagination['page'] = page;
-        // }
-        // console.log(result.params);
-
         // -----------------------------------------------------------
-
         let params = {};
         // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
         // переменной page.
-        if (page) {
-            params['page'] = page;
+        if (data.manufacturer) {
+            params['manufacturer'] = data.manufacturer;
         }
         if (year) {
             params['year'] = year;
@@ -171,7 +143,7 @@ jQuery(function ($) {
         if (brand.length > 0) {
             params['brand'] = brand;
         }
-        if (sort !== '1') {
+        if (sort) {
             params['sort'] = sort;
         }
         if (perPage !== '6') {
@@ -181,15 +153,7 @@ jQuery(function ($) {
         setLocation('?' + paramsStr);
 
         let filteredProducts = productsList.filter(product => filterProductNow(product, params));
-        // if (params.sort === '1') {
-        //     filteredProducts.sort((a, b) => a.price.value - b.price.value);
-        // } else if (params.sort === '2') {
-        //     filteredProducts.sort((a, b) => b.price.value - a.price.value);
-        // } else if (params.sort === '3') {
-        //     filteredProducts.sort((a, b) => a.year - b.year);
-        // } else if (params.sort === '4') {
-        //     filteredProducts.sort((a, b) => b.year - a.year);
-        // }
+
         switch (params.sort) {
             case '1':
                 filteredProducts.sort((item1, item2) => item1.price.value - item2.price.value);
@@ -252,21 +216,24 @@ jQuery(function ($) {
         $('.pagination li[data-page="' + page + '"]').addClass('active');
     }
     // -----------------------------------------------------------------------------
-    function createPagination (products, perPage, activePageNo) {
+    function createPagination (products, perPage, activePageNumber) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            pagesCount//TODO
-            console.log(pagesCount);
+            pagesCount + 1//TODO
         }
-        console.log(pagesCount);
 
         $('.js-pagination').data('pages-count', pagesCount);
 
         $('.js-page').remove();
         for (let i = pagesCount; i >= 1; i--) {
             let classActive = '';
-            if (i === activePageNo) {
+            if (i === activePageNumber) {
                 classActive = 'active';
+                $('.js-prev-page').addClass('disabled');
+                $('.js-first-page').addClass('disabled');
+            } else {
+                $('.js-prev-page').removeClass('disabled');
+                $('.js-first-page').removeClass('disabled');
             }
             $('.js-prev-page').after(`<li class="js-page ${classActive}" data-page="${i}">${i}</li>`);
         }
