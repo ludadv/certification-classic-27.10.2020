@@ -98,10 +98,10 @@ jQuery(function ($) {
         let minPrice = $('#price-from').data('min-price');
         let maxPrice = $('#price-to').data('max-price');
         // _______________________________________________
-        let data = $('#filter').serializeArray();
-        $.each(data,function(){
-            console.log(this.name+'='+this.value);
-        });
+        // let data = $('#filter').serializeArray();
+        // $.each(data,function(){
+        //     console.log(this.name+'='+this.value);
+        // });
 
         // _______________________________________________
         let result = {
@@ -121,12 +121,6 @@ jQuery(function ($) {
         console.log(result);
 
         // -----------------------------------------------------------
-        let params = {};
-        // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
-        // переменной page.
-        if (data.manufacturer) {
-            params['manufacturer'] = data.manufacturer;
-
         let params = {};
         // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
         // переменной page.
@@ -226,7 +220,7 @@ jQuery(function ($) {
     function createPagination (products, perPage, activePageNumber) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            pagesCount + 1//TODO
+            pagesCount + 1;
         }
 
         $('.js-pagination').data('pages-count', pagesCount);
@@ -236,18 +230,26 @@ jQuery(function ($) {
             let classActive = '';
             if (i === activePageNumber) {
                 classActive = 'active';
-                $('.js-prev-page').addClass('disabled');
-                $('.js-first-page').addClass('disabled');
-            } else {
-                $('.js-prev-page').removeClass('disabled');
-                $('.js-first-page').removeClass('disabled');
             }
             $('.js-prev-page').after(`<li class="js-page ${classActive}" data-page="${i}">${i}</li>`);
+        }
+        if (activePageNumber === 1) {
+            $('.js-first-page').addClass('disabled');
+            $('.js-prev-page').addClass('disabled');
+        } else {
+            $('.js-first-page').removeClass('disabled');
+            $('.js-prev-page').removeClass('disabled');
+        }
+        if (activePageNumber === pagesCount) {
+            $('.js-last-page').addClass('disabled');
+            $('.js-next-page').addClass('disabled');
+        } else  {
+            $('.js-last-page').removeClass('disabled');
+            $('.js-next-page').removeClass('disabled');
         }
     }
     // -----------------------------------------------------------------------------
     function filterProductNow (product, filter) {
-        // console.log(product);
         if (typeof filter.brand !== 'undefined') {
             let productValue = String(product.brand.id);
             if (!filter.brand.includes(productValue)) {
