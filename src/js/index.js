@@ -97,6 +97,13 @@ jQuery(function ($) {
         let page = getActivePage();
         let minPrice = $('#price-from').data('min-price');
         let maxPrice = $('#price-to').data('max-price');
+        // _______________________________________________
+        let data = $('#filter').serializeArray();
+        $.each(data,function(){
+            console.log(this.name+'='+this.value);
+        });
+
+        // _______________________________________________
         let result = {
             params: {
                 brand: brand,
@@ -114,6 +121,11 @@ jQuery(function ($) {
         console.log(result);
 
         // -----------------------------------------------------------
+        let params = {};
+        // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
+        // переменной page.
+        if (data.manufacturer) {
+            params['manufacturer'] = data.manufacturer;
 
         let params = {};
         // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
@@ -145,22 +157,23 @@ jQuery(function ($) {
         if (perPage !== '6') {
             params['perPage'] = perPage;
         }
-        let paramsStr = $.param(params)
+        let paramsStr = $.param(params);
         setLocation('?' + paramsStr);
 
         let filteredProducts = productsList.filter(product => filterProductNow(product, params));
+
         switch (params.sort) {
             case '1':
-                filteredProducts.sort((product1, product2) => product1.price.value - product2.price.value);
+                filteredProducts.sort((item1, item2) => item1.price.value - item2.price.value);
                 break;
             case '2':
-                filteredProducts.sort((product1, product2) => product2.price.value - product1.price.value);
+                filteredProducts.sort((item1, item2) => item2.price.value - item1.price.value);
                 break;
             case '3':
-                filteredProducts.sort((product1, product2) => product1.year - product2.year);
+                filteredProducts.sort((item1, item2) => item1.year - item2.year);
                 break;
             case '4':
-                filteredProducts.sort((product1, product2) => product2.year - product1.year);
+                filteredProducts.sort((item1, item2) => item2.year - item1.year);
                 break;
         }
         let pageNum = getActivePage();
@@ -213,8 +226,9 @@ jQuery(function ($) {
     function createPagination (products, perPage, activePageNumber) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            pagesCount + 1;//TODO
+            pagesCount + 1//TODO
         }
+
         $('.js-pagination').data('pages-count', pagesCount);
 
         $('.js-page').remove();
@@ -222,6 +236,11 @@ jQuery(function ($) {
             let classActive = '';
             if (i === activePageNumber) {
                 classActive = 'active';
+                $('.js-prev-page').addClass('disabled');
+                $('.js-first-page').addClass('disabled');
+            } else {
+                $('.js-prev-page').removeClass('disabled');
+                $('.js-first-page').removeClass('disabled');
             }
             $('.js-prev-page').after(`<li class="js-page ${classActive}" data-page="${i}">${i}</li>`);
         }
