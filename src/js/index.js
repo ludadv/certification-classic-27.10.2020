@@ -49,6 +49,33 @@ jQuery(function ($) {
             setActivePage(page);
             console.log('page', page);
         }
+        if (searchParams.has('manufacturer')) {
+            let manufacturer = searchParams.get('manufacturer');
+            console.log('manufacturer', manufacturer);
+        }
+        if (searchParams.has('model')) {
+            let model = searchParams.get('model');
+            console.log('model', model);
+        }
+        if (searchParams.has('priceFrom')) {
+            let priceFrom = searchParams.get('priceFrom');
+            console.log('priceFrom', priceFrom);
+        }
+        if (searchParams.has('priceTo')) {
+            let priceTo = searchParams.get('priceTo');
+            console.log('priceTo', priceTo);
+        }
+        if (searchParams.has('sort')) {
+            let sort = searchParams.get('sort');
+            console.log('sort', sort);
+        }
+        if (searchParams.has('perPage')) {
+            let perPage = searchParams.get('perPage');
+            console.log('perPage', perPage);
+        }
+
+
+
 
         // doAll();
     });
@@ -113,7 +140,6 @@ jQuery(function ($) {
         // $.each(data,function(){
         //     console.log(this.name+'='+this.value);
         // });
-
         // _______________________________________________
         let result = {
             params: {
@@ -231,7 +257,7 @@ jQuery(function ($) {
     function createPagination (products, perPage, activePageNumber) {
         let pagesCount = Math.round(products / perPage);
         if (products % perPage !== 0) {
-            pagesCount + 1;
+            pagesCount = pagesCount++;
         }
 
         $('.js-pagination').data('pages-count', pagesCount);
