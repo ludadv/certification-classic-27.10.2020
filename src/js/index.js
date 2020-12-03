@@ -44,11 +44,13 @@ jQuery(function ($) {
     // -----------------------------------------------------------------------------
     window.addEventListener ('popstate', function () {
         let searchParams = new URLSearchParams(window.location.search);
+
+        let page = 1;
         if (searchParams.has('page')) {
-            let page = searchParams.get('page');
-            setActivePage(page);
-            console.log('page', page);
+            page = searchParams.get('page');
         }
+        setActivePage(page);
+
         if (searchParams.has('manufacturer')) {
             let manufacturer = searchParams.get('manufacturer');
             console.log('manufacturer', manufacturer);
@@ -73,7 +75,7 @@ jQuery(function ($) {
             let perPage = searchParams.get('perPage');
             console.log('perPage', perPage);
         }
-        // doAll();
+        doAll(true);
     });
     // -----------------------------------------------------------------------------
     $('input, select').change(function () {
@@ -116,7 +118,7 @@ jQuery(function ($) {
         doAll();
     });
     // -----------------------------------------------------------------------------
-    function doAll() {
+    function doAll(skipHistory) {
         let brand = [];
         $('input[name="brand"]:checked').each(function () {
             brand.push($(this).val());
@@ -150,7 +152,7 @@ jQuery(function ($) {
         let params = {};
         // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
         // переменной page.
-        if (page) {
+        if (page > 1) {
             params['page'] = page;
         }
         if (year) {
@@ -171,18 +173,23 @@ jQuery(function ($) {
         if (brand.length > 0) {
             params['brand'] = brand;
         }
-        if (sort) {
+        if (sort > 1) {
             params['sort'] = sort;
         }
         if (perPage !== '6') {
             params['perPage'] = perPage;
         }
         let paramsStr = $.param(params);
-        setLocation('?' + paramsStr);
+        if (paramsStr) {
+            paramsStr = '?' + paramsStr;
+        }
+        if (!skipHistory) {
+            setLocation(paramsStr);
+        }
 
         let filteredProducts = productsList.filter(product => filterProductNow(product, params));
 
-        switch (params.sort) {
+        switch (sort) {
             case '1':
                 filteredProducts.sort((item1, item2) => item1.price.value - item2.price.value);
                 break;
@@ -210,11 +217,15 @@ jQuery(function ($) {
     }
     // -----------------------------------------------------------------------------
     function setLocation(curLoc) {
+        if (!curLoc) {
+            curLoc = '/';
+        }
+
         try {
             history.pushState(null, null, curLoc);
             return;
-        } catch (e) {
-        }
+        } catch (e) {}
+
         location.hash = '#' + curLoc;
     }
     // -----------------------------------------------------------------------------
@@ -234,6 +245,10 @@ jQuery(function ($) {
     // -----------------------------------------------------------------------------
     function getActivePage() {
         let page = $('.pagination li.active').data('page');
+
+        if (!page) {
+            page = 1;
+        }
 
         return page;
     }
