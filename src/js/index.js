@@ -73,10 +73,6 @@ jQuery(function ($) {
             let perPage = searchParams.get('perPage');
             console.log('perPage', perPage);
         }
-
-
-
-
         // doAll();
     });
     // -----------------------------------------------------------------------------
@@ -135,12 +131,6 @@ jQuery(function ($) {
         let page = getActivePage();
         let minPrice = $('#price-from').data('min-price');
         let maxPrice = $('#price-to').data('max-price');
-        // _______________________________________________
-        // let data = $('#filter').serializeArray();
-        // $.each(data,function(){
-        //     console.log(this.name+'='+this.value);
-        // });
-        // _______________________________________________
         let result = {
             params: {
                 brand: brand,
@@ -156,7 +146,6 @@ jQuery(function ($) {
             }
         }
         console.log(result);
-
         // -----------------------------------------------------------
         let params = {};
         // если значение переменной page не пустое, то в новый объект добавиться свойство page со значением
