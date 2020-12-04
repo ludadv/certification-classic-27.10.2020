@@ -53,10 +53,7 @@ jQuery(function ($) {
 
         if (searchParams.has('manufacturer')) {
             let manufacturer = searchParams.get('manufacturer');
-            if (manufacturer !== 0) {
-                // $(manufacturer).prop('selected', true);
-                console.log('hello');
-            }
+            $('#marka').val(manufacturer);
         }
         if (searchParams.has('model')) {
             let model = searchParams.get('model');
