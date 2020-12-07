@@ -51,42 +51,56 @@ jQuery(function ($) {
         }
         setActivePage(page);
 
+        $('input[name="brand"]:checked').prop('checked', false);
         if (searchParams.has('brand')) {
-            let brand = [];
-            brand.push(searchParams.getAll('brand'));
-            $('input[name="brand"]:checked').each(function(){
-                $(this).prop('checked', false);
+            let brand = searchParams.getAll('brand');
+            brand.forEach(function(value) {
+                $('input[name="brand"][value="' + value + '"]').prop('checked', true);
             });
         }
 
+        let manufacturer = '';
         if (searchParams.has('manufacturer')) {
-            let manufacturer = searchParams.get('manufacturer');
-            $('#marka').val(manufacturer);
+            manufacturer = searchParams.get('manufacturer');
         }
+        $('#marka').val(manufacturer);
+
+        let model = '';
         if (searchParams.has('model')) {
-            let model = searchParams.get('model');
-            $('#filter-model').val(model);
+            model = searchParams.get('model');
         }
+        $('#filter-model').val(model);
+
+        let priceFrom = 100;
         if (searchParams.has('priceFrom')) {
-            let priceFrom = searchParams.get('priceFrom');
-            $('#price-from').val(priceFrom);
+            priceFrom = searchParams.get('priceFrom');
         }
+        $('#price-from').val(priceFrom);
+
+        let priceTo = 3000;
         if (searchParams.has('priceTo')) {
-            let priceTo = searchParams.get('priceTo');
-            $('#price-to').val(priceTo);
+            priceTo = searchParams.get('priceTo');
         }
+        $('#price-to').val(priceTo);
+
+        let year = '';
         if (searchParams.has('year')) {
-            let year = searchParams.get('year');
-            $('#year').val(year);
+            year = searchParams.get('year');
         }
+        $('#year').val(year);
+
+        let sort = 1;
         if (searchParams.has('sort')) {
-            let sort = searchParams.get('sort');
-            $('#sort').val(sort);
+            sort = searchParams.get('sort');
         }
+        $('#sort').val(sort);
+
+        let perPage = 6;
         if (searchParams.has('perPage')) {
-            let perPage = searchParams.get('perPage');
-            $('#per_page').val(perPage);
+            perPage = searchParams.get('perPage');
         }
+        $('#per_page').val(perPage);
+
         doAll(true);
     });
     // -----------------------------------------------------------------------------
@@ -198,7 +212,7 @@ jQuery(function ($) {
         // if (!skipHistory) {
         //     setLocation(paramsStr);
         // }
-        let paramsStr = decodeURIComponent($.param(params));
+        let paramsStr = $.param(params, true);
         if (paramsStr) {
             paramsStr = '?' + paramsStr;
         }
