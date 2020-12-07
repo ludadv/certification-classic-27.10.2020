@@ -51,29 +51,41 @@ jQuery(function ($) {
         }
         setActivePage(page);
 
+        if (searchParams.has('brand')) {
+            let brand = [];
+            brand.push(searchParams.getAll('brand'));
+            $('input[name="brand"]:checked').each(function(){
+                $(this).prop('checked', false);
+            });
+        }
+
         if (searchParams.has('manufacturer')) {
             let manufacturer = searchParams.get('manufacturer');
             $('#marka').val(manufacturer);
         }
         if (searchParams.has('model')) {
             let model = searchParams.get('model');
-            console.log('model', model);
+            $('#filter-model').val(model);
         }
         if (searchParams.has('priceFrom')) {
             let priceFrom = searchParams.get('priceFrom');
-            console.log('priceFrom', priceFrom);
+            $('#price-from').val(priceFrom);
         }
         if (searchParams.has('priceTo')) {
             let priceTo = searchParams.get('priceTo');
-            console.log('priceTo', priceTo);
+            $('#price-to').val(priceTo);
+        }
+        if (searchParams.has('year')) {
+            let year = searchParams.get('year');
+            $('#year').val(year);
         }
         if (searchParams.has('sort')) {
             let sort = searchParams.get('sort');
-            console.log('sort', sort);
+            $('#sort').val(sort);
         }
         if (searchParams.has('perPage')) {
             let perPage = searchParams.get('perPage');
-            console.log('perPage', perPage);
+            $('#per_page').val(perPage);
         }
         doAll(true);
     });
@@ -179,7 +191,14 @@ jQuery(function ($) {
         if (perPage !== '6') {
             params['perPage'] = perPage;
         }
-        let paramsStr = $.param(params);
+        // let paramsStr = $.param(params);
+        // if (paramsStr) {
+        //     paramsStr = '?' + paramsStr;
+        // }
+        // if (!skipHistory) {
+        //     setLocation(paramsStr);
+        // }
+        let paramsStr = decodeURIComponent($.param(params));
         if (paramsStr) {
             paramsStr = '?' + paramsStr;
         }
